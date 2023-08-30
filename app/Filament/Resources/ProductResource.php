@@ -40,7 +40,8 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                ->sortable(),
+                ->sortable()
+                ->searchable(isIndividual: true, isGlobal: false),
                 TextColumn::make('price')
                 ->sortable(),
             ])
