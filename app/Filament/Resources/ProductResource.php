@@ -41,7 +41,7 @@ class ProductResource extends Resource
             ->columns([
                 TextColumn::make('name')
                 ->sortable()
-                ->searchable(isIndividual: true, isGlobal: false),
+                ->searchable(),
                 TextColumn::make('price')
                 ->sortable(),
             ])
