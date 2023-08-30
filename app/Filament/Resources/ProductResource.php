@@ -39,9 +39,12 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
-                TextColumn::make('price'),
+                TextColumn::make('name')
+                ->sortable(),
+                TextColumn::make('price')
+                ->sortable(),
             ])
+            ->defaultSort('name', 'asc')
             ->filters([
                 //
             ])
