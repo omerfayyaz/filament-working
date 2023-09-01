@@ -6,6 +6,7 @@ use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -29,9 +30,17 @@ class ProductResource extends Resource
                 TextInput::make('name')
                 ->required()
                 ->unique(ignoreRecord: true),
+
                 TextInput::make('price')
                 ->required()
                 ->rule('numeric'),
+
+                Select::make('status')
+                ->options([
+                    'in stock' => 'in stock',
+                    'sold out' => 'sold out',
+                    'coming soon' => 'coming soon',
+                ])
             ]);
     }
 
@@ -42,13 +51,15 @@ class ProductResource extends Resource
                 TextColumn::make('name')
                 ->sortable()
                 ->searchable(),
-                
+
                 TextColumn::make('price')
                 ->sortable()
                 ->money('usd')
                 ->getStateUsing(function (Product $record): float {
                     return $record->price / 100;
                 }),
+
+                TextColumn::make('status'),
             ])
             ->defaultSort('name', 'asc')
             ->filters([
