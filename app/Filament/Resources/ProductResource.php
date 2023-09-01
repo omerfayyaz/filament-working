@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
+use App\Models\Category;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Components\Radio;
@@ -41,7 +42,10 @@ class ProductResource extends Resource
                     'in stock' => 'in stock',
                     'sold out' => 'sold out',
                     'coming soon' => 'coming soon',
-                ])
+                ]),
+
+                Select::make('category_id')
+                ->relationship('category', 'name'),
             ]);
     }
 
@@ -61,6 +65,8 @@ class ProductResource extends Resource
                 }),
 
                 TextColumn::make('status'),
+
+                TextColumn::make('category.name'),
             ])
             ->defaultSort('name', 'asc')
             ->filters([
