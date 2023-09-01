@@ -6,6 +6,7 @@ use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
 use Filament\Forms;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -35,7 +36,7 @@ class ProductResource extends Resource
                 ->required()
                 ->rule('numeric'),
 
-                Select::make('status')
+                Radio::make('status')
                 ->options([
                     'in stock' => 'in stock',
                     'sold out' => 'sold out',
