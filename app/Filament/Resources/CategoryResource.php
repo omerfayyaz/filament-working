@@ -38,8 +38,8 @@ class CategoryResource extends Resource
                     ->searchable(),
 
                 TextColumn::make('products_count')
-                ->counts('products')
-                ->label('Products'),
+                    ->counts('products')
+                    ->label('Products'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

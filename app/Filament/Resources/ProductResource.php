@@ -37,18 +37,18 @@ class ProductResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                ->required()
-                ->unique(ignoreRecord: true),
+                    ->required()
+                    ->unique(ignoreRecord: true),
 
                 TextInput::make('price')
-                ->required()
-                ->rule('numeric'),
+                    ->required()
+                    ->rule('numeric'),
 
                 Radio::make('status')
-                ->options(self::$statuses),
+                    ->options(self::$statuses),
 
                 Select::make('category_id')
-                ->relationship('category', 'name'),
+                    ->relationship('category', 'name'),
 
                 // Select::make('tags')
                 // ->relationship('tags', 'name')
@@ -61,15 +61,15 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                ->sortable()
-                ->searchable(),
+                    ->sortable()
+                    ->searchable(),
 
                 TextColumn::make('price')
-                ->sortable()
-                ->money('usd')
-                ->getStateUsing(function (Product $record): float {
-                    return $record->price / 100;
-                }),
+                    ->sortable()
+                    ->money('usd')
+                    ->getStateUsing(function (Product $record): float {
+                        return $record->price / 100;
+                    }),
 
                 TextColumn::make('status'),
 
@@ -82,29 +82,29 @@ class ProductResource extends Resource
 
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
-                ->options(self::$statuses),
+                    ->options(self::$statuses),
                 Tables\Filters\SelectFilter::make('category')
-                ->relationship('category', 'name'),
+                    ->relationship('category', 'name'),
                 Tables\Filters\Filter::make('created_at')
-                ->form([
-                    Forms\Components\DatePicker::make('created_from'),
-                    Forms\Components\DatePicker::make('created_until'),
-                ])
-                ->query(function(Builder $query, array $data): Builder {
-                    return $query
-                    ->when(
-                        $data['created_from'],
-                        function (Builder $query, $date): Builder {
-                            return $query->whereDate('created_at', '>=' , $date);
-                        }
-                    )
-                    ->when(
-                        $data['created_until'],
-                        function (Builder $query, $date): Builder {
-                            return $query->whereDate('created_at', '<=' , $date);
-                        }
-                    );
-                }),
+                    ->form([
+                        Forms\Components\DatePicker::make('created_from'),
+                        Forms\Components\DatePicker::make('created_until'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['created_from'],
+                                function (Builder $query, $date): Builder {
+                                    return $query->whereDate('created_at', '>=', $date);
+                                }
+                            )
+                            ->when(
+                                $data['created_until'],
+                                function (Builder $query, $date): Builder {
+                                    return $query->whereDate('created_at', '<=', $date);
+                                }
+                            );
+                    }),
 
             ])
 

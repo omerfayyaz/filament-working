@@ -60,11 +60,11 @@ class TagResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getPages(): array
     {
         return [
             'index' => Pages\ManageTags::route('/'),
         ];
-    }    
+    }
 }
