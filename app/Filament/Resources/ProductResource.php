@@ -72,11 +72,20 @@ class ProductResource extends Resource
                         return $record->price / 100;
                     }),
 
-                TextColumn::make('status'),
+                TextColumn::make('status')
+                    ->badge()
+                    ->color(function (string $state): string {
+                        return match ($state) {
+                            'in stock' => 'success',
+                            'sold out' => 'danger',
+                            'coming soon' => 'info',
+                        };
+                    }),
 
                 TextColumn::make('category.name'),
 
-                TextColumn::make('tags.name'),
+                TextColumn::make('tags.name')
+                    ->badge(),
             ])
 
             ->defaultSort('name', 'asc')
