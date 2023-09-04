@@ -22,6 +22,12 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProductResource extends Resource
 {
+    protected static array $statuses =  [
+        'in stock' => 'in stock',
+        'sold out' => 'sold out',
+        'coming soon' => 'coming soon',
+    ];
+
     protected static ?string $model = Product::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -39,11 +45,7 @@ class ProductResource extends Resource
                 ->rule('numeric'),
 
                 Radio::make('status')
-                ->options([
-                    'in stock' => 'in stock',
-                    'sold out' => 'sold out',
-                    'coming soon' => 'coming soon',
-                ]),
+                ->options(self::$statuses),
 
                 Select::make('category_id')
                 ->relationship('category', 'name'),
@@ -77,12 +79,8 @@ class ProductResource extends Resource
             ])
             ->defaultSort('name', 'asc')
             ->filters([
-                Table\Filters\SelectFilter::make('status')
-                ->options([
-                    'in stock' => 'in stock',
-                    'sold out' => 'sold out',
-                    'coming soon' => 'coming soon',
-                ])
+                Tables\Filters\SelectFilter::make('status')
+                ->options(self::$statuses)
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
