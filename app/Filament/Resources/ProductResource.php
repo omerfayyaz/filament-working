@@ -77,20 +77,27 @@ class ProductResource extends Resource
 
                 TextColumn::make('tags.name'),
             ])
+
             ->defaultSort('name', 'asc')
+
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
-                ->options(self::$statuses)
+                ->options(self::$statuses),
+                Tables\Filters\SelectFilter::make('category')
+                ->relationship('category', 'name')
             ])
+
             ->actions([
                 Tables\Actions\EditAction::make(),
                 DeleteAction::make(),
             ])
+
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
+
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),
             ]);
