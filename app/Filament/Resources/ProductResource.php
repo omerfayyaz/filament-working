@@ -87,10 +87,9 @@ class ProductResource extends Resource
                         ->options(self::$statuses),
                     Tables\Filters\SelectFilter::make('category')
                         ->relationship('category', 'name'),
-                    Tables\Filters\Filter::make('created_at')
+                    Tables\Filters\Filter::make('created_from')
                         ->form([
                             Forms\Components\DatePicker::make('created_from'),
-                            Forms\Components\DatePicker::make('created_until'),
                         ])
                         ->query(function (Builder $query, array $data): Builder {
                             return $query
@@ -99,7 +98,14 @@ class ProductResource extends Resource
                                     function (Builder $query, $date): Builder {
                                         return $query->whereDate('created_at', '>=', $date);
                                     }
-                                )
+                                );
+                        }),
+                    Tables\Filters\Filter::make('created_until')
+                        ->form([
+                            Forms\Components\DatePicker::make('created_until'),
+                        ])
+                        ->query(function (Builder $query, array $data): Builder {
+                            return $query
                                 ->when(
                                     $data['created_until'],
                                     function (Builder $query, $date): Builder {
