@@ -72,6 +72,8 @@ class ProductResource extends Resource
                 TextColumn::make('status'),
 
                 TextColumn::make('category.name'),
+
+                TextColumn::make('tags.name'),
             ])
             ->defaultSort('name', 'asc')
             ->filters([
