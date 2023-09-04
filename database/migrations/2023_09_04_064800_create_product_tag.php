@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('product_tag', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('product_id')->nullable()->constrained();
+            $table->foreignId('tag_id')->nullable()->constrained();
             $table->timestamps();
         });
     }
