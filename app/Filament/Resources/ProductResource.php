@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
+use App\Filament\Resources\ProductResource\RelationManagers\TagsRelationManager;
 use App\Models\Category;
 use App\Models\Product;
 use Filament\Forms;
@@ -47,9 +48,9 @@ class ProductResource extends Resource
                 Select::make('category_id')
                 ->relationship('category', 'name'),
 
-                Select::make('tags')
-                ->relationship('tags', 'name')
-                ->multiple(),
+                // Select::make('tags')
+                // ->relationship('tags', 'name')
+                // ->multiple(),
             ]);
     }
 
@@ -93,7 +94,7 @@ class ProductResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\TagsRelationManager::class,
         ];
     }
 
