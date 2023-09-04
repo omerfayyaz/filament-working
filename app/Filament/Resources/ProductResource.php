@@ -16,6 +16,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -80,33 +81,37 @@ class ProductResource extends Resource
 
             ->defaultSort('name', 'asc')
 
-            ->filters([
-                Tables\Filters\SelectFilter::make('status')
-                    ->options(self::$statuses),
-                Tables\Filters\SelectFilter::make('category')
-                    ->relationship('category', 'name'),
-                Tables\Filters\Filter::make('created_at')
-                    ->form([
-                        Forms\Components\DatePicker::make('created_from'),
-                        Forms\Components\DatePicker::make('created_until'),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['created_from'],
-                                function (Builder $query, $date): Builder {
-                                    return $query->whereDate('created_at', '>=', $date);
-                                }
-                            )
-                            ->when(
-                                $data['created_until'],
-                                function (Builder $query, $date): Builder {
-                                    return $query->whereDate('created_at', '<=', $date);
-                                }
-                            );
-                    }),
+            ->filters(
+                [
+                    Tables\Filters\SelectFilter::make('status')
+                        ->options(self::$statuses),
+                    Tables\Filters\SelectFilter::make('category')
+                        ->relationship('category', 'name'),
+                    Tables\Filters\Filter::make('created_at')
+                        ->form([
+                            Forms\Components\DatePicker::make('created_from'),
+                            Forms\Components\DatePicker::make('created_until'),
+                        ])
+                        ->query(function (Builder $query, array $data): Builder {
+                            return $query
+                                ->when(
+                                    $data['created_from'],
+                                    function (Builder $query, $date): Builder {
+                                        return $query->whereDate('created_at', '>=', $date);
+                                    }
+                                )
+                                ->when(
+                                    $data['created_until'],
+                                    function (Builder $query, $date): Builder {
+                                        return $query->whereDate('created_at', '<=', $date);
+                                    }
+                                );
+                        }),
 
-            ])
+                ],
+                layout: FiltersLayout::AboveContent
+            )
+            ->filtersFormColumns(4)
 
             ->actions([
                 Tables\Actions\EditAction::make(),
